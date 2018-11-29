@@ -1,11 +1,10 @@
 package com.crappyengineering.dropwizard.demo;
 
-import javax.persistence.EntityManager;
-
 import com.crappyengineering.dropwizard.demo.model.Task;
 import com.crappyengineering.dropwizard.demo.model.Tasklist;
-import com.crappyengineering.dropwizard.demo.repository.TaskRepository;
+import com.crappyengineering.dropwizard.demo.repository.TaskRepositoryImpl;
 import com.crappyengineering.dropwizard.demo.repository.TasklistRepository;
+import com.crappyengineering.dropwizard.demo.repository.TasklistRepositoryImpl;
 import com.crappyengineering.dropwizard.demo.resource.TaskResource;
 import com.crappyengineering.dropwizard.demo.resource.TasklistResource;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -54,9 +53,8 @@ public class DemoApplication extends Application<DemoConfiguration> {
     public void run(final DemoConfiguration configuration,
                     final Environment environment) {
 
-        final EntityManager entityManager = hibernate.getSessionFactory().createEntityManager();
-        final TasklistRepository tasklistRepository = new TasklistRepository(entityManager);
-        final TaskRepository taskRepository= new TaskRepository(entityManager);
+        final TasklistRepository tasklistRepository = new TasklistRepositoryImpl(hibernate.getSessionFactory());
+        final TaskRepositoryImpl taskRepository= new TaskRepositoryImpl(hibernate.getSessionFactory());
 
         environment.jersey().register(new TaskResource(taskRepository));
         environment.jersey().register(new TasklistResource(tasklistRepository));
