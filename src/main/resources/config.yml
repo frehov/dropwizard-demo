@@ -1,3 +1,31 @@
+server:
+  type: simple
+  applicationContextPath: /api
+  adminContextPath: /admin
+  connector:
+    type: http
+    port: 9090
+
+database:
+  url: jdbc:postgresql://${DB_SERVER:-db}:${DB_PORT:-5432}/jvm-chapter
+  driverClass: org.postgresql.Driver
+  user: jvm-chapter
+  password: jvm-chapter
+
+  properties:
+    hibernate.hbm2ddl.auto: validate
+    hibernate.generate_statistics: true
+    hibernate.show_sql: true
+    hibernate.format_sql: true
+
+  maxWaitForConnection: 1s
+
+  # the SQL query to run when validating a connection's liveness
+  validationQuery: "/* DemoApplication Health Check */ SELECT 1"
+
+  # whether or not idle connections should be validated
+  checkConnectionWhileIdle: false
+
 logging:
   level: INFO
   loggers:
