@@ -1,10 +1,10 @@
 server:
   type: simple
-  applicationContextPath: /api
+  applicationContextPath: /
   adminContextPath: /admin
   connector:
     type: http
-    port: 9090
+    port: 8080
 
 database:
   url: jdbc:postgresql://${DB_SERVER:-db}:${DB_PORT:-5432}/jvm-chapter

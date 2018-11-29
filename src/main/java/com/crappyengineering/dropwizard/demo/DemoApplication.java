@@ -43,7 +43,7 @@ public class DemoApplication extends Application<DemoConfiguration> {
         bootstrap.setConfigurationSourceProvider(
                 new SubstitutingSourceProvider(
                         bootstrap.getConfigurationSourceProvider(),
-                        new EnvironmentVariableSubstitutor()
+                        new EnvironmentVariableSubstitutor(false)
                 )
         );
         bootstrap.addBundle(hibernate);
