@@ -6,6 +6,9 @@ import com.crappyengineering.dropwizard.demo.model.Task;
 import com.crappyengineering.dropwizard.demo.model.Tasklist;
 import com.crappyengineering.dropwizard.demo.repository.TaskRepository;
 import com.crappyengineering.dropwizard.demo.repository.TasklistRepository;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import io.dropwizard.Application;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
@@ -35,6 +38,7 @@ public class DemoApplication extends Application<DemoConfiguration> {
     @Override
     public void initialize(final Bootstrap<DemoConfiguration> bootstrap) {
         // TODO: application initialization
+        configureJacksonObjectMapper(bootstrap.getObjectMapper());
 
         bootstrap.setConfigurationSourceProvider(
                 new SubstitutingSourceProvider(
@@ -54,6 +58,14 @@ public class DemoApplication extends Application<DemoConfiguration> {
         final TasklistRepository tasklistRepository = new TasklistRepository(entityManager);
         final TaskRepository taskRepository= new TaskRepository(entityManager);
 
+    }
+
+    private void configureJacksonObjectMapper(ObjectMapper mapper){
+        mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+        mapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true);
+        mapper.configure(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS, true);
     }
 
 }
